@@ -18,9 +18,12 @@
 #include "modules/decision/behavior_tree/behavior_tree.h"
 #include "modules/decision/behavior_tree/planner_behavior.h"
 #include "modules/decision/behavior_tree/condition_behavior.h"
-
+#include "messages/RobotCamGlobalPos.h"
+#include "messages/RobotCamPos.h"
 int main(int argc, char **argv){
+  
   ros::init(argc, argv, "decision_node");
+  ros::NodeHandle n_xk;
   auto blackboard_ptr = std::make_shared<rrts::decision::Blackboard>();
   auto planner_behavior_ptr = std::make_shared<rrts::decision::PlannerBehavior>(blackboard_ptr);
   auto enemy_behavior_ptr = std::make_shared<rrts::decision::EnemyBehavior>(blackboard_ptr, planner_behavior_ptr);

@@ -39,6 +39,8 @@
 #include "common/rrts.h"
 #include "common/node_state.h"
 #include "common/main_interface.h"
+#include "messages/RobotCamGlobalPos.h"
+#include "messages/RobotCamPos.h"
 
 namespace rrts{
 namespace perception {
@@ -59,6 +61,7 @@ class ArmorDetectionNode : public rrts::common::RRTS {
    * @brief Actionlib server call back function.
    * @param data Command for control the algorithm thread.
    */
+  void detectEnermy(const messages::RobotCamGlobalPos::ConstPtr &rpc);
   void ActionCB(const messages::ArmorDetectionGoal::ConstPtr &data);
   /**
    * @brief Starting the armor detection thread.
@@ -104,6 +107,8 @@ class ArmorDetectionNode : public rrts::common::RRTS {
   //ROS
   ros::NodeHandle nh_;
   ros::Publisher enemy_info_pub_;
+  
+  ros::Subscriber sub_xk; 
   actionlib::SimpleActionServer<messages::ArmorDetectionAction> as_;
   messages::EnemyPos enemy_pos;
 };

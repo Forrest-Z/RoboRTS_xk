@@ -1,5 +1,5 @@
-add_subdirectory(stream)
+#add_subdirectory(stream)
 add_subdirectory(driver)
 add_subdirectory(perception)
-add_subdirectory(planning)
-add_subdirectory(decision)
+#add_subdirectory(planning)
+#add_subdirectory(decision)

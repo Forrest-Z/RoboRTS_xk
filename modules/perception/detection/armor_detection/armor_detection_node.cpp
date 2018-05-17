@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "modules/perception/detection/armor_detection/armor_detection_node.h"
+#include "messages/RobotCamGlobalPos.h"
+#include "messages/RobotCamPos.h"
 
 namespace rrts{
 namespace perception {
@@ -41,7 +43,10 @@ ArmorDetectionNode::ArmorDetectionNode(std::string name):
 
 ErrorInfo ArmorDetectionNode::Init() {
   enemy_info_pub_ = nh_.advertise<messages::EnemyPos>("enemy_pos", 100);
-
+  std::cout<<"hahahahha"<<std::endl;
+  sub_xk = nh_.subscribe("/robot_global_position",2,&ArmorDetectionNode::detectEnermy,this);
+  
+  
   ArmorDetectionAlgorithms armor_detection_algorithms;
   std::string file_name = "modules/perception/detection/armor_detection/config/armor_detection.prototxt";
   bool read_state = rrts::common::ReadProtoFromTextFile(file_name, &armor_detection_algorithms);
@@ -61,6 +66,14 @@ ErrorInfo ArmorDetectionNode::Init() {
     return ErrorInfo(ErrorCode::OK);
 }
 
+void ArmorDetectionNode::detectEnermy(const messages::RobotCamGlobalPos::ConstPtr &rpc){
+  if(rpc->back_exist_rob_flag) std::cout<<"back_exist ";
+  else std::cout<<"back_not_exist ";
+  if(rpc->right_exist_rob_flag) std::cout<<"right_exist ";
+  else std::cout<<"right_not_exist ";
+  if(rpc->left_exist_rob_flag) std::cout<<"left_exist "<<std::endl;
+  else std::cout<<"left_not_exist "<<std::endl;
+}
 void ArmorDetectionNode::ActionCB(const messages::ArmorDetectionGoal::ConstPtr &data) {
   messages::ArmorDetectionFeedback feedback;
   messages::ArmorDetectionResult result;
